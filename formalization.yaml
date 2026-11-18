@@ -1,0 +1,130 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+project:
+  name: "Three gauge-coupling windows isolate the roots of x³ − x − 1 and x⁴ − x − 1 in bounded polynomial families"
+  description: >-
+    Let ρ and Q be the roots greater than one of x³ − x − 1 and x⁴ − x − 1.
+    We classify the ordered triples (a,b,p) in three inequalities motivated by
+    the inverse fine-structure constant, the weak mixing angle and the strong
+    coupling, with p any natural number. For real roots of monic integer
+    polynomials drawn from the same family, the unique passing triple is
+    (ρ,Q,15) when the degree and coefficient height bounds are (4,3) or (6,2).
+    Both families include reducible polynomials of degree at least two with
+    nonzero constant term. The same triple is the unique solution when a and b
+    are roots of an irreducible monic cubic and quartic, respectively, of
+    height at most ten, with the product ab of norm −1 in ℚ(a,b) over ℚ.
+    Two explicit quartics show where this classification fails. One gives
+    a second pair at height eleven with the same norm. The other gives a
+    second pair at height ten with product norm +1. Both pass at p = 15.
+  authors: ["Stephanie Alexander"]
+  responsible_maintainers: ["Stephanie Alexander"]
+  license: "MIT"
+classification:
+  arxiv: ["math.NT"]
+  msc2020: ["11R04", "11R27", "12D10", "65G20"]
+sources:
+  - title: "Classification of bounded-height algebraic roots in three coupling windows and two sharpness witnesses"
+    authors: ["Stephanie Alexander"]
+    type: "original-proof"
+    relationship: "other"
+    location: "Challenge.lean, Solution.lean and the ExclusionRegion proof modules in this repository"
+    note: >-
+      Original mathematical classification and boundary constructions presented
+      with their formal proofs. The two equivalences combine the author's
+      previously developed exclusion, exponent and existence lemmas. The
+      counterexamples use the author's earlier checked witness constructions.
+      The sources below supply the problem data, standard tools or context.
+  - title: "Deriving Gravity from First Principles: The Dimensional Origin of Newton's Constant"
+    authors: ["Stephanie Alexander"]
+    type: "paper"
+    id: "https://doi.org/10.5281/zenodo.20417378"
+    location: "Table 2"
+    relationship: "background"
+    note: "The three coupling expressions and their physical interpretation."
+  - title: "expanded_exclusion_test.py"
+    authors: ["Stephanie Alexander"]
+    type: "other"
+    id: "https://github.com/stalex444/dimensional-origin-Newton/blob/18434bba7e2b8a1be63cddeb99b0fee90e5f38de/expanded_exclusion_test.py"
+    relationship: "background"
+    note: >-
+      Definitions and target decimals at lines 15–19 and 35–39, and the numerical
+      search tolerances at lines 203–207. The selected theorems use closed
+      inequalities and all natural exponents.
+  - title: "CODATA recommended values of the fundamental physical constants: 2022"
+    id: "https://doi.org/10.1103/RevModPhys.97.025002"
+    type: "paper"
+    relationship: "background"
+    note: "The inverse fine-structure window uses the centre rounded to 137.036."
+  - title: "Review of Particle Physics (2022), Table 1.1"
+    id: "https://pdg.lbl.gov/2022/reviews/rpp2022-rev-phys-constants.pdf"
+    type: "paper"
+    relationship: "background"
+    note: "Weak mixing angle in the MS-bar scheme at M_Z, giving the centre 0.23121."
+  - title: "Review of Particle Physics (2024), Table 1.1"
+    id: "https://pdg.lbl.gov/2024/reviews/rpp2024-rev-phys-constants.pdf"
+    type: "paper"
+    relationship: "background"
+    note: "Strong coupling at M_Z, giving the centre 0.1180."
+  - title: "Distribution of real algebraic integers"
+    authors: ["Denis Koleda"]
+    id: "https://doi.org/10.1016/j.jnt.2019.09.017"
+    type: "paper"
+    relationship: "background"
+    note: "Asymptotic counts in real intervals at fixed degree and increasing naïve height."
+  - title: "Polynomials With {0, +1, −1} Coefficients and a Root Close to a Given Point"
+    authors: ["Peter Borwein", "Christopher Pinner"]
+    id: "https://doi.org/10.4153/CJM-1997-047-3"
+    type: "paper"
+    relationship: "background"
+    note: "Approximation of specified algebraic numbers by roots of polynomials with restricted coefficients."
+  - title: "Algebraic Number Theory"
+    authors: ["James S. Milne"]
+    id: "https://www.jmilne.org/math/CourseNotes/ANT.pdf"
+    location: "Proposition 2.19 and the multiplicativity of the norm"
+    type: "book"
+    relationship: "background"
+    note: "Field norms through a tower, used in the norm reduction."
+related_formalizations:
+  - id: "https://github.com/stalex444/golden-family-boundary/tree/fc43a62561b4d7846ca25273229a4f964dff7ae5"
+    relationship: "other"
+    note: "PALOMAR-2026-09-01-000012 gives root uniqueness for the family xⁿ − x − 1. The present proofs establish the needed cubic and quartic cases locally."
+  - id: "https://github.com/stalex444/mahler-minimizer-compositum/tree/84b364a5f98daefc1be387ae0aeb3d39866eca79"
+    relationship: "other"
+    note: "PALOMAR-2026-09-01-000005 gives a unit certificate for the product and the compositum degree. The compared classification here uses the product's signed field norm."
+  - id: "https://github.com/leanprover-community/mathlib4/tree/065356127b1dc0016f66b7283ce0ce2c4055aa55"
+    relationship: "builds-on"
+    note: "Pinned library for polynomials, composita, linear disjointness, the field norm and real arithmetic."
+status:
+  scope: >-
+    Two exact classifications and two existential counterexamples. Cell
+    membership refers to witness-polynomial height. Cubic and quartic
+    irreducibility in the norm family is over ℚ. The counterexamples assert
+    a passing second coordinate satisfying b⁴ ≠ b + 1. The proofs identify
+    explicit witness polynomials and isolate the relevant roots.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+fidelity:
+  divergences: >-
+    The source script searches a finite list under strict tests. The two
+    classifications give exact equivalences on the indicated algebraic
+    classes using closed windows at the stated rational decimals. The
+    physical identification of the three functions motivates these
+    definitions. The formal claims concern real inequalities and field norms.
+automation:
+  methods:
+    - method: "agent"
+      models: ["Anthropic Claude"]
+      framework: "Claude Code"
+      tool_setup: "Author-directed Lean proofs, interval certificates and concrete counterexamples in the existing ExclusionRegion development."
+    - method: "agent"
+      models: ["OpenAI Codex"]
+      framework: "Codex"
+      tool_setup: "Assembled the selected source modules, wrote and checked the equivalence and counterexample declarations, and drafted the submission text."
+review:
+  status: "self-assessed"
+  notes: >-
+    The underlying proof modules underwent author-directed development and
+    AI-assisted statement review. The four declarations in this selection
+    were compared locally with both NanoDa and the Lean default kernel. The
+    results of this check and the toolchain revision are in the README.

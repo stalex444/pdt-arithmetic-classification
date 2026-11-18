@@ -1,0 +1,75 @@
+module
+
+public import Mathlib
+public import ExclusionRegion.WindowCheck
+public import ExclusionRegion.NestedCheck
+
+@[expose] public section
+
+namespace ExclusionRegion
+
+open Polynomial
+
+/-! CELL (6, 2): monic integer polynomials of degree 2 to 6, every coefficient in `-2 … 2`,
+nonzero constant term — 15,620 polynomials, reducible ones included. The windows are exactly those
+of Cell42/43/52.lean (fixed by containment, not by outcome): the a-window `[1.3231557, 1.3265140]`
+is the three-coupling box of F:520; the b-window `S = [1.22032003, 1.22113387]` is the slice of
+F:518. The certificates run through the nested enumerator `cellCheck` (NestedCheck.lean) and are
+carried back to the flat `cellList 6 2` by `cellCheck_sound`. Nothing here orders candidates
+beyond the cell rule. -/
+
+/-- The enumerated cell has 15,620 entries. -/
+theorem cellList62_length : (cellList 6 2).length = 15620 := by decide +kernel
+
+/-- Kernel certificate, a-window, nested form. -/
+theorem cell62_checkA_nested :
+    cellCheck 6 2 (winCheck f3L 10 13231557 13265140 10000000 2) = true := by
+  decide +kernel
+
+/-- Kernel certificate, slice `S`, nested form. -/
+theorem cell62_checkS_nested :
+    cellCheck 6 2 (winCheck f4L 10 122032003 122113387 100000000 2) = true := by
+  decide +kernel
+
+/-- Each of the 15,620 coefficient lists is root-free in `[13231557/10⁷, 13265140/10⁷]` or is
+`(x³ − x − 1)·q` with `q` root-free there. -/
+theorem cell62_checkA :
+    ∀ cs ∈ cellList 6 2, winCheck f3L 10 13231557 13265140 10000000 2 cs = true :=
+  cellCheck_sound cell62_checkA_nested
+
+/-- The same with `[122032003/10⁸, 122113387/10⁸]` and `x⁴ − x − 1`. -/
+theorem cell62_checkS :
+    ∀ cs ∈ cellList 6 2, winCheck f4L 10 122032003 122113387 100000000 2 cs = true :=
+  cellCheck_sound cell62_checkS_nested
+
+/-- WINDOW (a): in the cell (6, 2), every real root in `[1.3231557, 1.3265140]` is a root of
+`x³ = x + 1`. -/
+theorem cell62_window_a : ∀ P ∈ cell 6 2, ∀ x : ℝ, aeval x P = 0 →
+    (1.3231557 : ℝ) ≤ x → x ≤ 1.3265140 → x ^ 3 = x + 1 := by
+  intro P hP x h0 h1 h2
+  apply evR_f3L
+  refine cell_window f3L 10 2 (L := 13231557) (U := 13265140) (Dn := 10000000)
+    (by norm_num) (by norm_num) cell62_checkA hP h0 ?_ ?_
+  · push_cast; linarith
+  · push_cast; linarith
+
+/-- WINDOW (S): in the cell (6, 2), every real root in `[1.22032003, 1.22113387]` is a root of
+`x⁴ = x + 1`. -/
+theorem cell62_window_S : ∀ P ∈ cell 6 2, ∀ x : ℝ, aeval x P = 0 →
+    (1.22032003 : ℝ) ≤ x → x ≤ 1.22113387 → x ^ 4 = x + 1 := by
+  intro P hP x h0 h1 h2
+  apply evR_f4L
+  refine cell_window f4L 10 2 (L := 122032003) (U := 122113387) (Dn := 100000000)
+    (by norm_num) (by norm_num) cell62_checkS hP h0 ?_ ?_
+  · push_cast; linarith
+  · push_cast; linarith
+
+#print axioms cellList62_length
+#print axioms cell62_checkA_nested
+#print axioms cell62_checkS_nested
+#print axioms cell62_checkA
+#print axioms cell62_checkS
+#print axioms cell62_window_a
+#print axioms cell62_window_S
+
+end ExclusionRegion
